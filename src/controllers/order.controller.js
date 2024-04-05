@@ -22,3 +22,40 @@ export const addOrder = async(req, res, next) => {
       
     }
     }
+    export const getOneOrder = async(req, res, next) => {
+      try {
+          const getoneProject = await OrderModel.findById(req.params.id, req.body);
+          res.json(getOneOrder)
+      } catch (error) {
+          next(error)
+      }
+   }
+  
+   export const updateOrder = async(req, res, next) => {
+      try {
+          const updateOrder = await OrderModel.findByIdAndUpdate(req.params.id, req.body);
+          res.json(updateOrder)
+      } catch (error) {
+          
+      }
+   }
+    export const deleteAllOrder = async(req, res, next) => {
+      try {
+          const deleteAllOrder = await OrderModel.deleteMany();
+          res.json(deleteAllOrder)
+      } catch (error) {
+          next(error)
+          
+      }
+    }
+  
+    export const deleteAProject = async (req, res, next) => {
+     try {
+       const deleteOneOrder = await OrderModel.findByIdAndDelete(req.params.id, req.body);
+       res.json(deleteOneOrder)
+     } catch (error) {
+      next(error)
+      
+     }
+       
+      };
