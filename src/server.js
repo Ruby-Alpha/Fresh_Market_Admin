@@ -1,27 +1,24 @@
-import express from 'express';
-import mongoose from 'mongoose';
-import dotenv from 'dotenv'
-import Product from './routes/product.routes.js'
+import express from "express";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import Product from "./routes/product.routes.js";
+import { errorHandlerMiddleware } from "./middlewares/errorHandlers.js";
 
-dotenv.config()
+dotenv.config();
 
-const app = express()
-
+const app = express();
 
 // middlewares
-app.use(express.json())
-app.use(express.urlencoded({extended:false}));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
+const PORT = process.env.PORT || 8000;
 
+await mongoose.connect(process.env.MONGO_URI);
 
-const PORT = process.env.PORT || 8000
-
-await mongoose.connect(process.env.MONGO_URI)
-
-
-app.use(Product)
+app.use(Product);
+app.use(errorHandlerMiddleware);
 
 app.listen(PORT, () => {
-console.log(`express app is running on ${PORT}`)
-}
-)
+  console.log(`express app is running on ${PORT}`);
+});
