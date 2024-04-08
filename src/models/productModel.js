@@ -8,4 +8,4 @@ const productSchema = new Schema ({
     image: {type:String, required:true},
     qty: {type:String, required:true}
 })
-export const ProductModel = model('Product', productSchema, 'products');
+export const ProductModel = model('Product', productSchema,'products');

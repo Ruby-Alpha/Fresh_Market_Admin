@@ -10,16 +10,56 @@ router.post(
   async (req, res, next) => {
     try {
       const createProduct = await ProductModel.create(req.body);
+
+      if (!createProduct) {
+        const error = new Error(
+          "Fields required"
+        );
+  
+        error.statusCode = 404;
+  
+        return next(error);
+      }
+
       res.status(201).json(createProduct);
     } catch (error) {
       next(error);
     }
   }
 );
-router.get("/api/product", adminOnlyRouteMiddleware, async (req, res, next) => {
+router.get("/api/product", async (req, res, next) => {
   try {
     const getProduct = await ProductModel.find();
+
+    if (!getProduct) {
+        const error = new Error(
+          "Not Found"
+        );
+  
+        error.statusCode = 404;
+  
+        return next(error);
+      }
+
     res.status(200).json(getProduct);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/api/product/:id", async (req, res, next) => {
+  try {
+    const getByIdProduct = await ProductModel.findById(req.params.id)
+    if (!getByIdProduct) {
+        const error = new Error(
+          `Can't find product with the id of ${req.params.id}`
+        );
+  
+        error.statusCode = 404;
+  
+        return next(error);
+      } 
+    res.status(200).json(getByIdProduct);
   } catch (error) {
     next(error);
   }
@@ -33,6 +73,17 @@ router.patch(
         req.params.id,
         req.body
       );
+
+      if (!updateByIdProduct) {
+        const error = new Error(
+          `Can't find product with the id of ${req.params.id}`
+        );
+  
+        error.statusCode = 404;
+  
+        return next(error);
+      }
+
       res.json(updateByIdProduct);
     } catch (error) {
       next(error);
@@ -47,6 +98,17 @@ router.delete(
       const getByIdAndDeleteProduct = await ProductModel.findByIdAndDelete(
         req.params.id
       );
+
+      if (!getByIdAndDeleteProduct) {
+        const error = new Error(
+          `Can't find product with the id of ${req.params.id}`
+        );
+  
+        error.statusCode = 404;
+  
+        return next(error);
+      }
+      
       res.status(200).json(getByIdAndDeleteProduct);
     } catch (error) {
       next(error);
