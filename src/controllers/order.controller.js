@@ -41,8 +41,8 @@ export const addOrder = async(req, res, next) => {
    }
     export const deleteAllOrder = async(req, res, next) => {
       try {
-          const deleteAllOrder = await OrderModel.deleteMany();
-          res.json(deleteAllOrder)
+          const deleteAllOrders = await OrderModel.deleteMany();
+          res.json(deleteAllOrders)
       } catch (error) {
           next(error)
           

@@ -1,16 +1,18 @@
 import { Router } from "express";
-import { addOrder, getOrders } from "../controllers/order.controller.js";
+import { addOrder, deleteAllOrders, deleteAnOrder, getOneOrder, getOrders, updateOrder } from "../controllers/order.controller.js";
 
-export const router = Router();
+ const router = Router();
 
 router.post("/", addOrder);
 
-router.get("/", getOrders);
+router.get("/orders", getOrders);
 
-router.get("/:id", getRecipe );
+router.get("/:id", getOneOrder);
 
-router.patch('/:id', updateRecipes );
+router.patch('/:id', updateOrder );
 
-router.delete('/:id', deleteRecipes);
+router.delete('/orders', deleteAllOrders);
+router.delete('/:id', deleteAnOrder);
 
+export default router
 
