@@ -28,7 +28,7 @@ router.post("/users", async (req, res, next) => {
 router.get("/users", async (req, res, next) => {
     try {
         const fetchUsersResult = await userModel.find({});
-        res.status(200).json(findResult);
+        res.status(200).json(fetchUsersResult);
     } catch (error) {
         next(error);
     }
