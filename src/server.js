@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import Product from "./routes/product.routes.js";
 import { errorHandlerMiddleware } from "./middlewares/errorHandlers.js";
-import {router} from "./src/routes/user.routes.js";
+import {router} from "./routes/user.routes.js";
 import cors from "cors";
 
 dotenv.config();
