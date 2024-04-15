@@ -49,7 +49,7 @@ export const addOrder = async(req, res, next) => {
       }
     }
   
-    export const deleteAProject = async (req, res, next) => {
+    export const deleteAnOrder = async (req, res, next) => {
      try {
        const deleteOneOrder = await OrderModel.findByIdAndDelete(req.params.id, req.body);
        res.json(deleteOneOrder)
