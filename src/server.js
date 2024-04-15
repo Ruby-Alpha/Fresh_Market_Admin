@@ -1,12 +1,24 @@
-import express from 'express';
-import mongoose from 'mongoose';
+import express from "express";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import Product from "./routes/product.routes.js";
+import { errorHandlerMiddleware } from "./middlewares/errorHandlers.js";
 
-const app = express()
+dotenv.config();
 
-const PORT = 4000
-await mongoose.connect ('mongodb+srv://<Fresh_Market_Admin_Project>:<LWtIIk7OyNdpqPGd>@fredericka.bzyjsbq.mongodb.net/?retryWrites=true&w=majority&appName=Fredericka')
+const app = express();
+
+// middlewares
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+const PORT = process.env.PORT || 8000;
+
+await mongoose.connect(process.env.MONGO_URI);
+
+app.use(Product);
+app.use(errorHandlerMiddleware);
 
 app.listen(PORT, () => {
-console.log('express app is running on 4000')
-}
-)
+  console.log(`express app is running on ${PORT}`);
+});
