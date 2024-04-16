@@ -1,4 +1,5 @@
 import userModel from "../models/userModel.js";
+
 import jwt from "jsonwebtoken";
 
 export const adminOnlyRouteMiddleware = async (req, res, next) => {
