@@ -1,23 +1,21 @@
 import { Router } from "express";
-import { ProductModel } from "../models/productModel.js";
+import { oderModel } from "../models/order.model.js";
 import { adminOnlyRouteMiddleware } from "../middlewares/userAuth.js";
 
 const router = Router();
 
 router.post(
   "/api/product",
-  adminOnlyRouteMiddleware,
+  // adminOnlyRouteMiddleware
   async (req, res, next) => {
     try {
       const createProduct = await ProductModel.create(req.body);
 
       if (!createProduct) {
-        const error = new Error(
-          "Fields required"
-        );
-  
+        const error = new Error("Fields required");
+
         error.statusCode = 404;
-  
+
         return next(error);
       }
 
@@ -32,14 +30,12 @@ router.get("/api/product", async (req, res, next) => {
     const getProduct = await ProductModel.find();
 
     if (!getProduct) {
-        const error = new Error(
-          "Not Found"
-        );
-  
-        error.statusCode = 404;
-  
-        return next(error);
-      }
+      const error = new Error("Not Found");
+
+      error.statusCode = 404;
+
+      return next(error);
+    }
 
     res.status(200).json(getProduct);
   } catch (error) {
@@ -49,16 +45,16 @@ router.get("/api/product", async (req, res, next) => {
 
 router.get("/api/product/:id", async (req, res, next) => {
   try {
-    const getByIdProduct = await ProductModel.findById(req.params.id)
+    const getByIdProduct = await ProductModel.findById(req.params.id);
     if (!getByIdProduct) {
-        const error = new Error(
-          `Can't find product with the id of ${req.params.id}`
-        );
-  
-        error.statusCode = 404;
-  
-        return next(error);
-      } 
+      const error = new Error(
+        `Can't find product with the id of ${req.params.id}`
+      );
+
+      error.statusCode = 404;
+
+      return next(error);
+    }
     res.status(200).json(getByIdProduct);
   } catch (error) {
     next(error);
@@ -66,7 +62,7 @@ router.get("/api/product/:id", async (req, res, next) => {
 });
 router.patch(
   "/api/product/:id",
-  adminOnlyRouteMiddleware,
+  // adminOnlyRouteMiddleware,
   async (req, res, next) => {
     try {
       const updateByIdProduct = await ProductModel.findByIdAndUpdate(
@@ -78,9 +74,9 @@ router.patch(
         const error = new Error(
           `Can't find product with the id of ${req.params.id}`
         );
-  
+
         error.statusCode = 404;
-  
+
         return next(error);
       }
 
@@ -92,7 +88,7 @@ router.patch(
 );
 router.delete(
   "/api/product/:id",
-  adminOnlyRouteMiddleware,
+  // adminOnlyRouteMiddleware,
   async (req, res, next) => {
     try {
       const getByIdAndDeleteProduct = await ProductModel.findByIdAndDelete(
@@ -103,12 +99,12 @@ router.delete(
         const error = new Error(
           `Can't find product with the id of ${req.params.id}`
         );
-  
+
         error.statusCode = 404;
-  
+
         return next(error);
       }
-      
+
       res.status(200).json(getByIdAndDeleteProduct);
     } catch (error) {
       next(error);
