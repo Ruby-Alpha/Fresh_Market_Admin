@@ -1,61 +1,105 @@
-import { OrderModel } from "../Model/order.model";
+import { OrderModel } from "../models/order.model.js";
 
-export const addOrder = async(req, res, next) => {
-    try {
-      // add order to the database
-      const createResult = await OrderModel.create(req.body);
-      // Return response 
-      res.json(createResult)
-  
-    } catch (error) {
-     // forward to express error handler
-     next(error)
+export const addOrder =  async (req, res, next) => {
+  try {
+    const createOrder = await OrderModel.create(req.body);
+
+    if (!createOrder) {
+      const error = new Error(
+        "Fields required"
+      );
+
+      error.statusCode = 404;
+
+      return next(error);
     }
- }
 
- export const getOrders = async(req, res,next) => {
+    res.status(201).json(createOrder);
+  } catch (error) {
+    next(error);
+  }
+}
+
+ export const getOrders =  async (req, res, next) => {
+  try {
+    const getOrder = await OrderModel.find();
+
+    if (!getOrder) {
+        const error = new Error(
+          "Not Found"
+        );
+  
+        error.statusCode = 404;
+  
+        return next(error);
+      }
+
+    res.status(200).json(getOrder);
+  } catch (error) {
+    next(error);
+  }
+}
+    export const getOneOrder =  async (req, res, next) => {
+      try {
+        const getByIdOrder = await OrderModel.findById(req.params.id)
+        if (!getByIdOrder) {
+            const error = new Error(
+              `Can't find Order with the id of ${req.params.id}`
+            );
+      
+            error.statusCode = 404;
+      
+            return next(error);
+          } 
+        res.status(200).json(getByIdOrder);
+      } catch (error) {
+        next(error);
+      }
+    }
+  
+   export const updateOrder = async (req, res, next) => {
     try {
-      const getAllOrders = await OrderModel.find({});
-        res.json(getAllOrders);
+      const updateByIdOrder = await OrderModel.findByIdAndUpdate(
+        req.params.id,
+        req.body
+      );
+
+      if (!updateByIdOrder) {
+        const error = new Error(
+          `Can't find Order with the id of ${req.params.id}`
+        );
+  
+        error.statusCode = 404;
+  
+        return next(error);
+      }
+
+      res.json(updateByIdOrder);
     } catch (error) {
       next(error);
-      
     }
-    }
-    export const getOneOrder = async(req, res, next) => {
-      try {
-          const getoneProject = await OrderModel.findById(req.params.id, req.body);
-          res.json(getOneOrder)
-      } catch (error) {
-          next(error)
-      }
-   }
-  
-   export const updateOrder = async(req, res, next) => {
-      try {
-          const updateOrder = await OrderModel.findByIdAndUpdate(req.params.id, req.body);
-          res.json(updateOrder)
-      } catch (error) {
-          
-      }
-   }
-    export const deleteAllOrder = async(req, res, next) => {
-      try {
-          const deleteAllOrder = await OrderModel.deleteMany();
-          res.json(deleteAllOrder)
-      } catch (error) {
-          next(error)
-          
-      }
-    }
+  }
+   
+   
   
     export const deleteAnOrder = async (req, res, next) => {
-     try {
-       const deleteOneOrder = await OrderModel.findByIdAndDelete(req.params.id, req.body);
-       res.json(deleteOneOrder)
-     } catch (error) {
-      next(error)
-      
-     }
-       
-      };
+      try {
+        const getByIdAndDeleteOrder = await OrderModel.findByIdAndDelete(
+          req.params.id
+        );
+  
+        if (!getByIdAndDeleteOrder) {
+          const error = new Error(
+            `Can't find Order with the id of ${req.params.id}`
+          );
+    
+          error.statusCode = 404;
+    
+          return next(error);
+        }
+        
+        res.status(200).json(getByIdAndDeleteOrder);
+      } catch (error) {
+        next(error);
+      }
+    }

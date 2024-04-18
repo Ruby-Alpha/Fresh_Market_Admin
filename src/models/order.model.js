@@ -1,5 +1,5 @@
 
-import { Model, Schema } from 'mongoose';
+import { model, Schema } from 'mongoose';
 
 const orderSchema= new Schema({
     
@@ -13,4 +13,4 @@ const orderSchema= new Schema({
     country: { type: String},
     deliveryLocation:{type:String, required:true}
 })
-export const OrderModel= Model('Order', orderSchema, 'orders');
+export const OrderModel= model('Order', orderSchema, 'orders');

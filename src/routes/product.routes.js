@@ -1,12 +1,12 @@
 import { Router } from "express";
 import { ProductModel } from "../models/productModel.js";
-import { adminOnlyRouteMiddleware } from "../middlewares/userAuth.js";
+// import { adminOnlyRouteMiddleware } from "../middlewares/userAuth.js";
 
 const router = Router();
 
 router.post(
   "/api/product",
-  adminOnlyRouteMiddleware,
+  // adminOnlyRouteMiddleware,
   async (req, res, next) => {
     try {
       const createProduct = await ProductModel.create(req.body);
@@ -66,7 +66,7 @@ router.get("/api/product/:id", async (req, res, next) => {
 });
 router.patch(
   "/api/product/:id",
-  adminOnlyRouteMiddleware,
+  // adminOnlyRouteMiddleware,
   async (req, res, next) => {
     try {
       const updateByIdProduct = await ProductModel.findByIdAndUpdate(
@@ -92,7 +92,7 @@ router.patch(
 );
 router.delete(
   "/api/product/:id",
-  adminOnlyRouteMiddleware,
+  // adminOnlyRouteMiddleware,
   async (req, res, next) => {
     try {
       const getByIdAndDeleteProduct = await ProductModel.findByIdAndDelete(

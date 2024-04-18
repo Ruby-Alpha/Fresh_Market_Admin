@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import Product from "./routes/product.routes.js";
+import Order from "./routes/order.routes.js";
 import { errorHandlerMiddleware } from "./middlewares/errorHandlers.js";
 import {router} from "./routes/user.routes.js";
 import cors from "cors";
@@ -21,6 +22,7 @@ app.use(errorHandlerMiddleware);
 
 
 app.use(Product);
+app.use(Order);
 app.use('/', router);
 
 
