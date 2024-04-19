@@ -1,7 +1,7 @@
 import { Router, json } from "express";
 import  Jwt  from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import {userModel } from "../models/userModel.js";
+import User from "../models/userModel.js";
 
 export const router = Router();
 
@@ -9,13 +9,14 @@ export const router = Router();
 router.post("/users", async (req, res, next) => {
     try {
         // add user to database
+        console.log(req.body)
         const salt = bcrypt.genSaltSync(10);
 
         const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
         req.body.password = hashedPassword;
        
-        const registerResult = await userModel.create(req.body);
+        const registerResult = await User.create(req.body);
         res.status(201).json(registerResult);
         console.log('data:', registerResult);
 
@@ -27,7 +28,7 @@ router.post("/users", async (req, res, next) => {
 // Fetch all users
 router.get("/users", async (req, res, next) => {
     try {
-        const fetchUsersResult = await userModel.find({});
+        const fetchUsersResult = await User.find({});
         res.status(200).json(fetchUsersResult);
     } catch (error) {
         next(error);
@@ -41,7 +42,7 @@ router.post("/users/login", async (req, res, next) => {
 
     try {
         // attempt to login
-        const loginResult = await userModel.findOne( {email: req.body.email}).exec();
+        const loginResult = await User.findOne( {email: req.body.email}).exec();
         console.log(loginResult);
         const isPasswordMatch = await bcrypt.compare(
             req.body.password,
